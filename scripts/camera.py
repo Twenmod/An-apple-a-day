@@ -1,7 +1,7 @@
 import os
 import pygame
 from pygame.locals import *
-from gameobject import *
+from scripts.gameobject import *
 from math import *
 
 class camera():
@@ -17,8 +17,10 @@ class camera():
         self.zoom = zoom
         self.resolution = resolution
     def on_loop(self):
-        self.position[0] = lerp(self.position[0],self.followObject.position[0],self.smoothTime)
-        self.position[1] = lerp(self.position[1],self.followObject.position[1],self.smoothTime)
+        #self.position[0] = lerp(self.position[0],self.followObject.position[0],self.smoothTime)
+        #self.position[1] = lerp(self.position[1],self.followObject.position[1],self.smoothTime)
+        self.position[0] = self.followObject.position[0]
+        self.position[1] = self.followObject.position[1]
         print("Player: " + str(self.position[0])+str(self.position[1]))
 
         pass

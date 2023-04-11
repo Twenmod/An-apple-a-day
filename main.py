@@ -1,24 +1,24 @@
 import os
 import pygame
 from pygame.locals import *
-from gameobject import *
-from player import *
-from camera import *
+from scripts.gameobject import *
+from scripts.player import *
+from scripts.camera import *
+from scripts.cameragroup import *
 
 Clock = pygame.time.Clock()
 
 class App:
     def __init__(self):
         self._running = True
-        self._display_surf = None
+        self.screen = None
         self.size = self.weight, self.height = 1366, 768
 
     def on_init(self):
         pygame.init()
-        self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
-        self.screen = self._display_surf.copy()
+        self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
-        self.object_list = pygame.sprite.Group()
+        self.object_list = CameraGroup()
 
         #Start:
         self.player = Player('player.png',(0.1,0.1),False,0,0,1)
@@ -26,11 +26,10 @@ class App:
 
         self.object_list.add(self.player)
  
-        #Gameobject test
-        #Object = gameObject('player.png',(0.5,0.5),False,0,0.1)
-        #Object.rect.x = 0
-        #Object.rect.y = 0
-        #self.object_list.add(Object)
+        Object = gameObject('Box.png',(0.2,0.1),False,0,1,[50,50])
+        Object.rect.x = 5
+        Object.rect.y = 5
+        self.object_list.add(Object)
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -42,12 +41,12 @@ class App:
             obj.on_loop()
         self.mainCam.on_loop()
 
+        Clock.tick(60)
+
         pass
     def on_render(self):
         self.screen.fill((0,0,0))
-        self.screen.blit(pygame.image.load("images/grid.png"),(-self.mainCam.position[0],-self.mainCam.position[1]))
-        self.object_list.draw(self.screen) # draw player
-        self._display_surf.blit(pygame.transform.scale(self.screen, self.screen.get_rect().size*self.mainCam.zoom), (-self.mainCam.position[0]+(self.weight/2), -self.mainCam.position[1]+(self.height/2)))
+        self.object_list.draw_objects(self.player) # draw player
         pygame.display.flip()
 
 

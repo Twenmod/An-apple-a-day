@@ -1,7 +1,7 @@
 import os
 import pygame
 from pygame.locals import *
-from gameobject import *
+from scripts.gameobject import *
 
 class Player(gameObject):
     def __init__(self, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, gravity=0, speed = 1):
