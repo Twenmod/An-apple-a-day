@@ -3,12 +3,15 @@ import pygame
 from pygame.locals import *
 from scripts.gameobject import *
 from scripts.player import *
-from scripts.camera import *
 from scripts.cameragroup import *
+from scripts.tree import *
 
 Clock = pygame.time.Clock()
 
 class App:
+
+    deltaTime = 0
+
     def __init__(self):
         self._running = True
         self.screen = None
@@ -21,15 +24,13 @@ class App:
         self.object_list = CameraGroup()
 
         #Start:
-        self.player = Player('player.png',(0.1,0.1),False,0,0,1)
-        self.mainCam = camera(self.player, 1,0.1,[self.weight,self.height])
+        self.player = Player('player.png',(0.1,0.1),False,0,100)
 
         self.object_list.add(self.player)
  
-        Object = gameObject('Box.png',(0.2,0.1),False,0,1,[50,50])
-        Object.rect.x = 5
-        Object.rect.y = 5
+        Object = tree((4,4),50,'tree',(10,5),self.player)
         self.object_list.add(Object)
+
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -37,16 +38,14 @@ class App:
             obj.on_event(event)
 
     def on_loop(self):
+        self.deltaTime = (Clock.tick(30)/1000)
         for obj in self.object_list:
-            obj.on_loop()
-        self.mainCam.on_loop()
-
-        Clock.tick(60)
+            obj.on_loop(self.deltaTime)
 
         pass
     def on_render(self):
         self.screen.fill((0,0,0))
-        self.object_list.draw_objects(self.player) # draw player
+        self.object_list.draw_objects(self.player,self.deltaTime) # draw player
         pygame.display.flip()
 
 

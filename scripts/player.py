@@ -4,20 +4,17 @@ from pygame.locals import *
 from scripts.gameobject import *
 
 class Player(gameObject):
-    def __init__(self, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, gravity=0, speed = 1):
+    def __init__(self, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1):
         print(sprite)
-        super(Player, self).__init__(sprite, scale, isKinematic, drag, gravity)
+        super(Player, self).__init__(sprite, scale, isKinematic, drag)
 
         self.speed = speed
-        self.gravity = gravity
         self.drag = drag
         self.horizontalinput = 0
         self.verticalinput = 0
 
-    def on_loop(self):
-        super().on_loop()
-
-        print("Player: " + str(self.position[0])+str(self.position[1]))
+    def on_loop(self, deltaTime):
+        super().on_loop(deltaTime)
 
         self.velocity_x = self.horizontalinput * self.speed
         self.velocity_y = self.verticalinput * self.speed
