@@ -19,6 +19,7 @@ class tree(gameObject):
 
     def __init__(self, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None):
         super(tree, self).__init__("tree/stage0.png", scale, True, 0,startpos)
+        print("Treeinit")
         self.scale = scale
         self.growthSpeed = growthSpeed
         self.type = type

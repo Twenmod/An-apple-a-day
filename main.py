@@ -5,6 +5,7 @@ from scripts.gameobject import *
 from scripts.player import *
 from scripts.cameragroup import *
 from scripts.tree import *
+from scripts.tilemap import *
 
 Clock = pygame.time.Clock()
 
@@ -23,12 +24,17 @@ class App:
         self._running = True
         self.object_list = CameraGroup()
 
+        #Create Tilemap
+        self.tilemap = tilemap()
+        
+
         #Start:
-        self.player = Player('player.png',(0.1,0.1),False,0,100)
+
+        self.player = Player(self.object_list,'player.png',(0.1,0.1),False,0,100)
 
         self.object_list.add(self.player)
  
-        Object = tree((4,4),50,'tree',(10,5),self.player)
+        Object = tree((4,4),20,'tree',(10,5),self.player)
         self.object_list.add(Object)
 
     def on_event(self, event):
@@ -45,7 +51,7 @@ class App:
         pass
     def on_render(self):
         self.screen.fill((0,0,0))
-        self.object_list.draw_objects(self.player,self.deltaTime) # draw player
+        self.object_list.draw_objects(self.player,self.deltaTime,self.tilemap) # draw player
         pygame.display.flip()
 
 
