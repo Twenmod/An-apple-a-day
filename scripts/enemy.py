@@ -1,20 +1,26 @@
 import os
 import pygame
+import main
 from pygame.locals import *
 from scripts.gameobject import *
+from scripts.projectile import *
 
 class enemy(gameObject):
 
     attackspeed = 1
     _attackcool = 0
+    attackVelocity = 1
+    attackDamage = 1
     walkspeed = 1
     target = None 
-    def __init__(self, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1):
+    def __init__(self, object_list=None, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1):
         super().__init__(sprite, scale, True, 0, startposition)
         self.walkspeed = walkspeed
         self.target = player
         self.attackspeed = attackspeed
-
+        self.attackVelocity = attackVelocity
+        self.attackDamage = attackDamage
+        self.object_list = object_list
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -31,5 +37,11 @@ class enemy(gameObject):
             self._attackcool = self.attackspeed
             self.attack()
     def attack(self):
-        
+
+        playerdir = self.target.position - self.position
+        if (playerdir.magnitude() > 0):
+            playerdir = playerdir.normalize()
+
+        proj = projectile(self.object_list,'Box.png',(0.1,0.1),0,(self.position.x,self.position.y),playerdir*self.attackVelocity,"enemy",2,1)
+        self.object_list.add(proj)
         pass

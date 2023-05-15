@@ -6,6 +6,7 @@ from scripts.player import *
 from scripts.cameragroup import *
 from scripts.tree import *
 from scripts.tilemap import *
+from scripts.enemy import *
 
 Clock = pygame.time.Clock()
 
@@ -33,9 +34,12 @@ class App:
         self.player = Player(self.object_list,'player.png',(0.1,0.1),False,0,100)
 
         self.object_list.add(self.player)
- 
+
         Object = tree((4,4),20,'tree',(10,5),self.player)
         self.object_list.add(Object)
+
+        spawnedenemy = enemy(self.object_list, 'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1)
+        self.object_list.add(spawnedenemy)
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -62,7 +66,7 @@ class App:
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
- 
+
         while( self._running ):
             for event in pygame.event.get():
                 self.on_event(event)
