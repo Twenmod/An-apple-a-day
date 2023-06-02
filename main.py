@@ -39,7 +39,7 @@ class App:
         Object = tree((4,4),20,'tree',(10,5),self.player)
         self.object_list.add(Object)
 
-        spawnedenemy = enemy(self.object_list, 'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1)
+        spawnedenemy = enemy(self.object_list, 'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,10)
         self.object_list.add(spawnedenemy)
         self.enemies.add(spawnedenemy)
 

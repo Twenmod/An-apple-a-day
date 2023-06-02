@@ -12,7 +12,7 @@ class enemy(gameObject):
     attackDamage = 1
     walkspeed = 1
     target = None 
-    def __init__(self, object_list=None, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1):
+    def __init__(self, object_list=None, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10):
         super().__init__(sprite, scale, True, 0, startposition)
         self.walkspeed = walkspeed
         self.target = player
@@ -20,6 +20,7 @@ class enemy(gameObject):
         self.attackVelocity = attackVelocity
         self.attackDamage = attackDamage
         self.object_list = object_list
+        self.health = maxhealth
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)

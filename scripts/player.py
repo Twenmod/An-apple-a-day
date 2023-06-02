@@ -22,14 +22,19 @@ class Player(gameObject):
 
         self.velocity_x = self.horizontalinput * self.speed
         self.velocity_y = self.verticalinput * self.speed
+
+        mouse = pygame.mouse.get_pressed()
+        mousepos = pygame.mouse.get_pos()
+        if mouse[0]:
+            self.attack("normalapple", mousepos)
+
     def on_event(self, event):
         super().on_event(event)
         
         self.horizontalinput = 0
         self.verticalinput = 0
         keys = pygame.key.get_pressed()
-        mouse = pygame.mouse.get_pressed()
-        mousepos = pygame.mouse.get_pos()
+
         if keys[pygame.K_a]:
             self.horizontalinput = -1
         if keys[pygame.K_d]:
@@ -40,8 +45,7 @@ class Player(gameObject):
             self.verticalinput = -1
         if keys[pygame.K_f]:
             self.plant_tree(0)
-        if mouse[0]:
-            self.attack("normalapple", mousepos)
+
         pass
 
     def takedamage(self, damage):
@@ -50,8 +54,13 @@ class Player(gameObject):
             self.kill()
             #DIE
     def attack(self, attacktype,mouseposition):
+        relativemousepositionx = self.rect.centerx - mouseposition[0]
+        relativemousepositiony = self.rect.centery - mouseposition[1]
+        mousedir = pygame.math.Vector2(relativemousepositionx,relativemousepositiony)
+        mousedir.normalize()
         if attacktype == "normalapple":
-            proj = projectile()
+            proj = projectile(self,self.cameragroup,self.enemylist,'Box.png',(0.1,0.1),0,(self.position.x,self.position.y),mousedir,True,2,1)
+            self.cameragroup.add(proj)
             pass
         elif attacktype == "SWITCHSTATEMENT":
             pass

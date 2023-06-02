@@ -32,8 +32,8 @@ class projectile (gameObject):
                 self.player.takedamage(self.damage)
                 self.die()
         else:
-            if (self.spritecollideany(self.enemylist)):
-                hit = self.spritecollideany(self.enemylist)
+            if (pygame.sprite.spritecollideany(self,self.enemylist)):
+                hit = pygame.sprite.spritecollideany(self,self.enemylist)
                 hit.takedamage(self.damage)
 
             
