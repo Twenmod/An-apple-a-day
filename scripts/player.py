@@ -6,7 +6,10 @@ from scripts.tree import *
 from scripts.projectile import *
 
 class Player(gameObject):
-    def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10):
+
+    normalApples = 10
+
+    def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1):
         super(Player, self).__init__(sprite, scale, isKinematic, drag)
         self.cameragroup = camgroup
         self.speed = speed
@@ -16,6 +19,11 @@ class Player(gameObject):
         self.maxhealth = maxhealth
         self.health = self.maxhealth
         self.enemylist = enemylist
+        self.baseattackvelocity = baseattackvelocity
+        self.baseattackdamage = baseattackdamage
+        self.baseattackvelocity = baseattackvelocity
+        self.baseattackdelay = baseattackdelay
+        self.attackdelay = 0
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -25,8 +33,10 @@ class Player(gameObject):
 
         mouse = pygame.mouse.get_pressed()
         mousepos = pygame.mouse.get_pos()
+        self.attackdelay -= deltaTime 
         if mouse[0]:
-            self.attack("normalapple", mousepos)
+            if self.attackdelay <= 0:
+                self.attack("normalapple", mousepos)
 
     def on_event(self, event):
         super().on_event(event)
@@ -54,14 +64,21 @@ class Player(gameObject):
             self.kill()
             #DIE
     def attack(self, attacktype,mouseposition):
-        relativemousepositionx = self.rect.centerx - mouseposition[0]
-        relativemousepositiony = self.rect.centery - mouseposition[1]
+
+
+        relativemousepositionx = mouseposition[0] - pygame.display.get_surface().get_width()/2
+        relativemousepositiony = mouseposition[1] - pygame.display.get_surface().get_height()/2
         mousedir = pygame.math.Vector2(relativemousepositionx,relativemousepositiony)
-        mousedir.normalize()
+        mousedir = mousedir.normalize()
         if attacktype == "normalapple":
-            proj = projectile(self,self.cameragroup,self.enemylist,'Box.png',(0.1,0.1),0,(self.position.x,self.position.y),mousedir,True,2,1)
-            self.cameragroup.add(proj)
-            pass
+            if self.normalApples <= 0:
+                pass
+            else:
+                self.normalApples -= 1
+                self.attackdelay = self.baseattackdelay
+                proj = projectile(self,self.cameragroup,self.enemylist,'NormalApple.png',(1,1),0,(self.rect.centerx,self.rect.centery),mousedir * 5 * self.baseattackvelocity,True,2,1)
+                self.cameragroup.add(proj)
+                pass
         elif attacktype == "SWITCHSTATEMENT":
             pass
         pass

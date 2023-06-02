@@ -24,6 +24,7 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
         self.object_list = CameraGroup()
+
         #Create Tilemap
         self.tilemap = tilemap()
         
@@ -58,13 +59,14 @@ class App:
     def on_render(self):
         self.screen.fill((0,0,0))
         self.object_list.draw_objects(self.player,self.deltaTime,self.tilemap) # draw player
-        pygame.display.flip()
 
         #UI
-        font = pygame.font.SysFont(None, 24)
-        img = font.render('hello', True, 255)
-        self.screen.blit(img, (20, 20))
+        font = pygame.font.Font('fonts/LilitaOne-Regular.ttf', 32)
+        text = font.render('Apples: '+str(self.player.normalApples), True, (0,0,255))
+        textRect = text.get_rect()
+        self.screen.blit(text, textRect)
 
+        pygame.display.flip()
 
         pass
     def on_cleanup(self):
