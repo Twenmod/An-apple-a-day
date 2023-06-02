@@ -24,14 +24,15 @@ class App:
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
         self.object_list = CameraGroup()
-
         #Create Tilemap
         self.tilemap = tilemap()
         
+        self.enemies =  pygame.sprite.Group()
+
 
         #Start:
 
-        self.player = Player(self.object_list,'player.png',(0.1,0.1),False,0,100)
+        self.player = Player(self.object_list,self.enemies,'player.png',(0.1,0.1),False,0,100)
 
         self.object_list.add(self.player)
 
@@ -40,6 +41,7 @@ class App:
 
         spawnedenemy = enemy(self.object_list, 'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1)
         self.object_list.add(spawnedenemy)
+        self.enemies.add(spawnedenemy)
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -57,6 +59,11 @@ class App:
         self.screen.fill((0,0,0))
         self.object_list.draw_objects(self.player,self.deltaTime,self.tilemap) # draw player
         pygame.display.flip()
+
+        #UI
+        font = pygame.font.SysFont(None, 24)
+        img = font.render('hello', True, 255)
+        self.screen.blit(img, (20, 20))
 
 
         pass

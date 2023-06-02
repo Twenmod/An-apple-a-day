@@ -1,6 +1,5 @@
 import os
 import pygame
-import main
 from pygame.locals import *
 from scripts.gameobject import *
 from scripts.projectile import *
@@ -42,6 +41,11 @@ class enemy(gameObject):
         if (playerdir.magnitude() > 0):
             playerdir = playerdir.normalize()
 
-        proj = projectile(self.object_list,'Box.png',(0.1,0.1),0,(self.position.x,self.position.y),playerdir*self.attackVelocity,"enemy",2,1)
+        proj = projectile(self.target,self.object_list, None, 'Box.png', (0.1,0.1), 0, (self.rect.centerx,self.rect.centery), playerdir*self.attackVelocity, False, 5, 1)
         self.object_list.add(proj)
         pass
+    def takedamage(self, damage):
+        self.health -= damage
+        if (self.health <= 0):
+            self.kill()
+            #DIE
