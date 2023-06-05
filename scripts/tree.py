@@ -1,5 +1,6 @@
 import os
 import pygame
+import random
 from pygame.locals import *
 from scripts.gameobject import *
 
@@ -56,6 +57,9 @@ class tree(gameObject):
 
     def harvest(self):
         #drop applesz
+        if self.type == "tree":
+            self.player.normalApples += random.randrange(1,10)
+            
 
         #return to last stage
         self.growth = self.growthStages[self.growthStage-1]

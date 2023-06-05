@@ -33,7 +33,7 @@ class App:
 
         #Start:
 
-        self.player = Player(self.object_list,self.enemies,'player.png',(0.1,0.1),False,0,100)
+        self.player = Player(self.object_list,self.enemies,'player.png',(0.1,0.1),False,0,100,100,1,100,1,self.tilemap)
 
         self.object_list.add(self.player)
 

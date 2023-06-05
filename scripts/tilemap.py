@@ -3,15 +3,17 @@ import pygame
 from pygame.locals import *
 
 class tileType():
-    def __init__(self, type = "G", spritepath = "Box.png") -> None:
+    def __init__(self, type = "G", spritepath = "Box.png", plantable=False) -> None:
         self.type = type
         self.spritepath = "world/"+spritepath
+        self.plantable = plantable
         pass
 
 
 class tile(pygame.sprite.Sprite):
-    def __init__(self, sprite = 'Box.png', scale = (1, 1), startposition = (0,0)):
+    def __init__(self, sprite = 'Box.png', scale = (1, 1), startposition = (0,0),plantable=False):
         print("I AM NOW EXIST AT: "+str(startposition))
+        self.plantable = plantable
         pygame.sprite.Sprite.__init__(self)
         self.images = []
 
@@ -32,7 +34,9 @@ class tile(pygame.sprite.Sprite):
 
 class tilemap():
 
-    tiletypes = [tileType("G","Grass.png"),tileType("D","Dirt.png")]
+    tiletypes = [tileType("G","Grass.png", False),tileType("D","Dirt.png", True)]
+
+    plantabletiles = []
 
     map = [
         "GGGGGGGGGG",
@@ -64,7 +68,9 @@ class tilemap():
                     if (types.type == x):
                         ttype = types
                 
-                spawned = tile(ttype.spritepath,(0.5,0.5),(xpos, ypos))
+                spawned = tile(ttype.spritepath,(0.5,0.5),(xpos, ypos),ttype.plantable)
+                if (spawned.plantable):
+                    self.plantabletiles.append(spawned)
                 tileline.append(spawned)
                 self.tileobjects.append(spawned)
                 xpos += self.tilesize

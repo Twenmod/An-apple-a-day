@@ -5,11 +5,13 @@ from scripts.gameobject import *
 from scripts.tree import * 
 from scripts.projectile import *
 
+
 class Player(gameObject):
 
     normalApples = 10
+    poisonApples = 0
 
-    def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1):
+    def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
         super(Player, self).__init__(sprite, scale, isKinematic, drag)
         self.cameragroup = camgroup
         self.speed = speed
@@ -24,6 +26,7 @@ class Player(gameObject):
         self.baseattackvelocity = baseattackvelocity
         self.baseattackdelay = baseattackdelay
         self.attackdelay = 0
+        self.worldmap = map
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -64,8 +67,6 @@ class Player(gameObject):
             self.kill()
             #DIE
     def attack(self, attacktype,mouseposition):
-
-
         relativemousepositionx = mouseposition[0] - pygame.display.get_surface().get_width()/2
         relativemousepositiony = mouseposition[1] - pygame.display.get_surface().get_height()/2
         mousedir = pygame.math.Vector2(relativemousepositionx,relativemousepositiony)
@@ -83,9 +84,12 @@ class Player(gameObject):
             pass
         pass
 
+
     def plant_tree(self, type):
-        treetypes = [tree((4,4),1,"tree")]
-        spawned = treetypes[type]
-        spawned.position = self.position
-        spawned.player = self
-        self.cameragroup.add(spawned)
+        if (pygame.sprite.spritecollideany(self,self.worldmap.plantabletiles)): # test if on dirt
+            treetypes = [tree((4,4),1,"tree")]
+            spawned = treetypes[type]
+            spawned.position.x = round(((self.position.x - self.rect.width/2)/50)*50)
+            spawned.position.y = round(((self.position.y - self.rect.height/2)/50)*50)
+            spawned.player = self
+            self.cameragroup.add(spawned)
