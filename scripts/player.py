@@ -86,10 +86,26 @@ class Player(gameObject):
 
 
     def plant_tree(self, type):
-        if (pygame.sprite.spritecollideany(self,self.worldmap.plantabletiles)): # test if on dirt
-            treetypes = [tree((4,4),1,"tree")]
-            spawned = treetypes[type]
-            spawned.position.x = round(((self.position.x - self.rect.width/2)/50)*50)
-            spawned.position.y = round(((self.position.y - self.rect.height/2)/50)*50)
-            spawned.player = self
-            self.cameragroup.add(spawned)
+        plant_position = pygame.math.Vector2(self.rect.center)
+        plant_position.y += self.rect.height/2
+        plant_position.x -= self.rect.width/2
+        plant_position.x = round(plant_position.x/50)*50
+        plant_position.y = round(plant_position.y/50)*50
+
+
+        #find closest rect
+        closestdist = 10^99
+        closesttile = None
+        for tile in self.worldmap.plantabletiles:
+            dist = pygame.math.Vector2.distance_to(plant_position,tile.rect.center)
+            if dist < closestdist:
+                closestdist = dist
+                closesttile = tile
+        if (closesttile != None):
+            if (closesttile.rect.collidepoint(plant_position)): # test if on dirt
+                treetypes = [tree((4,4),1,"tree")]
+                spawned = treetypes[type]
+                spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
+                spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50
+                spawned.player = self
+                self.cameragroup.add(spawned)
