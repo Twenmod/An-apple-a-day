@@ -7,6 +7,7 @@ from scripts.cameragroup import *
 from scripts.tree import *
 from scripts.tilemap import *
 from scripts.enemy import *
+from scripts.wavespawner import *
 
 Clock = pygame.time.Clock()
 
@@ -44,6 +45,8 @@ class App:
         self.object_list.add(spawnedenemy)
         self.enemies.add(spawnedenemy)
 
+        self.wavedelay = 20
+
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -54,6 +57,14 @@ class App:
         self.deltaTime = (Clock.tick(30)/1000)
         for obj in self.object_list:
             obj.on_loop(self.deltaTime)
+
+        #waves
+        self.wavedelay -= self.deltaTime
+        if self.wavedelay <= 0:
+            #start new wave
+            wave(self.enemies,[enemy(self.object_list,'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,5)])
+
+            self.wavedelay = 20
 
         pass
     def on_render(self):
