@@ -3,6 +3,7 @@ import pygame
 import random
 from pygame.locals import *
 from scripts.gameobject import *
+from scripts.droppeditem import *
 
 class tree(gameObject):
 
@@ -11,20 +12,21 @@ class tree(gameObject):
     scale=(1,1)
     player = None
 
-    growthStages = [0,50,100,150,200]
+    growthStages = [0,25,75,125,200]
     growthStage = 0
     growthSpeed = 1
     growth = 0
     stageSprites =["stage0.png", "stage1.png", "stage2.png", "stage3.png", "stage4.png"]
     type = "tree"
 
-    def __init__(self, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None):
+    def __init__(self, object_list, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None):
         super(tree, self).__init__("tree/stage0.png", scale, True, 0,startpos)
         print("Treeinit")
         self.scale = scale
         self.growthSpeed = growthSpeed
         self.type = type
         self.player = player
+        self.object_list = object_list
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -58,8 +60,11 @@ class tree(gameObject):
     def harvest(self):
         #drop applesz
         if self.type == "tree":
-            self.player.normalApples += random.randrange(1,10)
-            
+            amountnormalApple = random.randrange(1,10)
+            while amountnormalApple > 0:
+                amountnormalApple-=1
+                drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalApple")
+                self.object_list.add(drop)
 
         #return to last stage
         self.growth = self.growthStages[self.growthStage-1]

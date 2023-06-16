@@ -33,8 +33,8 @@ class gameObject(pygame.sprite.Sprite):
             self.position.y -= self.velocity_y*deltaTime
 
             #Drag
-            self.velocity_x /= (1+self.drag)
-            self.velocity_y /= (1+self.drag)
+            self.velocity_x /= 1+self.drag*deltaTime
+            self.velocity_y /= 1+self.drag*deltaTime
 
         #Set sprite to position
         self.rect.x = self.position.x

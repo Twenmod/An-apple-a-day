@@ -10,6 +10,9 @@ class Player(gameObject):
 
     normalApples = 10
     poisonApples = 0
+    normalSeeds = 2
+    seeds = [normalSeeds]
+    treePlantingCooldown = 1
 
     def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
         super(Player, self).__init__(sprite, scale, isKinematic, drag)
@@ -30,6 +33,8 @@ class Player(gameObject):
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
+
+        self.treePlantingCooldown -= deltaTime
 
         self.velocity_x = self.horizontalinput * self.speed
         self.velocity_y = self.verticalinput * self.speed
@@ -56,8 +61,9 @@ class Player(gameObject):
             self.verticalinput = 1
         if keys[pygame.K_s]:
             self.verticalinput = -1
-        if keys[pygame.K_f]:
+        if keys[pygame.K_f] and self.treePlantingCooldown <= 0:
             self.plant_tree(0)
+            self.treePlantingCooldown = 1
 
         pass
 
@@ -85,12 +91,12 @@ class Player(gameObject):
         pass
 
 
-    def plant_tree(self, type):
+    def plant_tree(self, typetospawn):
         plant_position = pygame.math.Vector2(self.rect.center)
         plant_position.y += self.rect.height/2
         plant_position.x -= self.rect.width/2
-        plant_position.x = round(plant_position.x/50)*50
-        plant_position.y = round(plant_position.y/50)*50
+        plant_position.x = (round(plant_position.x/50)*50)+25
+        plant_position.y = (round(plant_position.y/50)*50)-25
 
 
         #find closest rect
@@ -103,9 +109,11 @@ class Player(gameObject):
                 closesttile = tile
         if (closesttile != None):
             if (closesttile.rect.collidepoint(plant_position)): # test if on dirt
-                treetypes = [tree((4,4),1,"tree")]
-                spawned = treetypes[type]
-                spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
-                spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50
-                spawned.player = self
-                self.cameragroup.add(spawned)
+                if (self.seeds[typetospawn] > 0):
+                    self.seeds[typetospawn] -= 1
+                    treetypes = [tree(self.cameragroup,(4,4),40,"tree",(0,0),self)]
+                    spawned = treetypes[typetospawn]
+                    spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
+                    spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50
+                    spawned.player = self
+                    self.cameragroup.add(spawned)

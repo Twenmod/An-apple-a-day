@@ -38,12 +38,6 @@ class App:
 
         self.object_list.add(self.player)
 
-        Object = tree((4,4),20,'tree',(10,5),self.player)
-        self.object_list.add(Object)
-
-        spawnedenemy = enemy(self.object_list, 'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,10)
-        self.object_list.add(spawnedenemy)
-        self.enemies.add(spawnedenemy)
 
         self.wavedelay = 20
 
@@ -62,7 +56,7 @@ class App:
         self.wavedelay -= self.deltaTime
         if self.wavedelay <= 0:
             #start new wave
-            wave(self.enemies,[enemy(self.object_list,'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,5)])
+            newwave = wave(self.object_list,self.enemies,[enemy(self.object_list,'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,5)])
 
             self.wavedelay = 20
 
@@ -75,6 +69,10 @@ class App:
         font = pygame.font.Font('fonts/LilitaOne-Regular.ttf', 32)
         text = font.render('Apples: '+str(self.player.normalApples), True, (0,0,255))
         textRect = text.get_rect()
+        self.screen.blit(text, textRect)
+        text = font.render('Seeds: '+str(self.player.seeds[0]), True, (0,0,255))
+        textRect = text.get_rect()
+        textRect.centery = 50
         self.screen.blit(text, textRect)
 
         pygame.display.flip()

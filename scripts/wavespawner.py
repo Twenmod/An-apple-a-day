@@ -5,11 +5,12 @@ from math import *
 from random import *
 
 class wave():
-    def __init__(self, object_list, enemies = [None], amountofenemies = (2,5), spawnrange = 500):
+    def __init__(self, object_list, enemy_list, enemies = [None], amountofenemies = (2,5), spawnrange = 200):
         self.enemies = enemies
         self.amountofenemies = amountofenemies
         self.spawnrange = spawnrange
         self.object_list = object_list
+        self.enemy_list = enemy_list
         self.startwave()
     def startwave(self):
         amount = randrange(self.amountofenemies[0],self.amountofenemies[1],1)
@@ -28,3 +29,4 @@ class wave():
         enemy.position.x = spawnx
         enemy.position.y = spawny
         self.object_list.add(enemy)
+        self.enemy_list.add(enemy)
