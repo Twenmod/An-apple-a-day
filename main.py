@@ -15,6 +15,9 @@ class App:
 
     deltaTime = 0
 
+    difficultyscalingspeed = 0.01
+    difficultyscaling = 1
+
     def __init__(self):
         self._running = True
         self.screen = None
@@ -34,7 +37,7 @@ class App:
 
         #Start:
 
-        self.player = Player(self.object_list,self.enemies,'player.png',(0.1,0.1),False,0,100,100,1,100,1,self.tilemap)
+        self.player = Player(self.object_list,self.enemies,'player.png',(0.1,0.1),False,0,100,100,2,100,0.5,self.tilemap)
 
         self.object_list.add(self.player)
 
@@ -53,10 +56,13 @@ class App:
             obj.on_loop(self.deltaTime)
 
         #waves
-        self.wavedelay -= self.deltaTime
+        self.difficultyscaling += self.difficultyscalingspeed*self.deltaTime
+        self.wavedelay -= self.deltaTime * self.difficultyscaling
         if self.wavedelay <= 0:
             #start new wave
-            newwave = wave(self.object_list,self.enemies,[enemy(self.object_list,'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,5)])
+            newwave = wave(self.object_list,self.enemies,[
+                enemy(self.object_list,'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,5)
+                ])
 
             self.wavedelay = 20
 

@@ -27,6 +27,6 @@ class droppeditem (gameObject):
         if (self.item == "normalApple"):
             self.player.normalApples += 1
         elif (self.item == "normalSeeds"):
-            self.player.normalSeeds += 1
+            self.player.seeds[0] += 1
         self.kill()
         pass

@@ -12,6 +12,8 @@ class tree(gameObject):
     scale=(1,1)
     player = None
 
+    health = 10
+
     growthStages = [0,25,75,125,200]
     growthStage = 0
     growthSpeed = 1
@@ -83,6 +85,10 @@ class tree(gameObject):
             if (distance < self.harvestdistance):
                 if (self.growthStage == len(self.growthStages)-1):
                     self.harvest()
-
         pass
+
+    def takedamage(self, damage):
+        self.health -= damage
+        if (self.health <= 0):
+            self.kill()
 

@@ -10,8 +10,7 @@ class Player(gameObject):
 
     normalApples = 10
     poisonApples = 0
-    normalSeeds = 2
-    seeds = [normalSeeds]
+    seeds = [2]
     treePlantingCooldown = 1
 
     def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):

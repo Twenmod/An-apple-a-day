@@ -2,6 +2,7 @@ import os
 import pygame
 from pygame.locals import *
 from scripts.gameobject import *
+from scripts.particlesystem import *
 
 class projectile (gameObject):
 
@@ -31,6 +32,10 @@ class projectile (gameObject):
             if (self.rect.colliderect(self.player.rect)):
                 self.player.takedamage(self.damage)
                 self.die()
+            if (pygame.sprite.spritecollideany(self,self.enemylist)):
+                hit = pygame.sprite.spritecollideany(self,self.enemylist)
+                hit.takedamage(self.damage)
+                self.die()
         else:
             if (pygame.sprite.spritecollideany(self,self.enemylist)):
                 hit = pygame.sprite.spritecollideany(self,self.enemylist)
@@ -40,5 +45,6 @@ class projectile (gameObject):
             
 
     def die(self):
+        #particlesystem("Box.png",self.object_list,(1,10),0.5,-0.1,(1,1),(1,10),5,(self.rect.centerx, self.rect.centery))
         self.kill()
         pass
