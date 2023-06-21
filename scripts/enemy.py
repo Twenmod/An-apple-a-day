@@ -14,7 +14,7 @@ class enemy(gameObject):
     walkspeed = 1
     target = None 
 
-    def __init__(self, object_list=None, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10):
+    def __init__(self, object_list=None, tree_list = None, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10):
         super().__init__(sprite, scale, True, 0, startposition)
         self.walkspeed = walkspeed
         self.target = player
@@ -23,6 +23,7 @@ class enemy(gameObject):
         self.attackDamage = attackDamage
         self.object_list = object_list
         self.health = maxhealth
+        self.tree_list = tree_list
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -44,7 +45,7 @@ class enemy(gameObject):
         if (playerdir.magnitude() > 0):
             playerdir = playerdir.normalize()
 
-        proj = projectile(self.target,self.object_list, None, 'Box.png', (0.1,0.1), 0, (self.rect.centerx,self.rect.centery), playerdir*self.attackVelocity, False, 5, 1)
+        proj = projectile(self.target,self.object_list, self.tree_list, 'Syringe.png', (1.6,1.6), 0, (self.rect.centerx,self.rect.centery), playerdir*self.attackVelocity, False, 5, 1)
         self.object_list.add(proj)
         pass
     def takedamage(self, damage):
@@ -53,11 +54,11 @@ class enemy(gameObject):
             #Drop seeds
             amountofitems = random.randrange(0,5)
             while(amountofitems > 0):
-                drops = [None,None,None,droppeditem(self.target,'Box.png',(0.1,0.1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalSeeds")]
+                drops = [None,None,None,droppeditem(self.target,'seeds.png',(2.5,2.5),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalSeeds")]
                 amountofitems-=1 
                 drop = drops[random.randrange(0,len(drops),1)]
                 if (drop != None):
                     self.object_list.add(drop)
-
+            self.target.score += 15
             self.kill()
             #DIE

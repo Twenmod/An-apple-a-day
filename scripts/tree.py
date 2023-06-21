@@ -4,15 +4,16 @@ import random
 from pygame.locals import *
 from scripts.gameobject import *
 from scripts.droppeditem import *
+from scripts.particlesystem import *
 
 class tree(gameObject):
 
-    harvestdistance = 200
+    harvestdistance = 100
 
     scale=(1,1)
     player = None
 
-    health = 10
+    health = 5
 
     growthStages = [0,25,75,125,200]
     growthStage = 0
@@ -60,7 +61,7 @@ class tree(gameObject):
         pass
 
     def harvest(self):
-        #drop applesz
+        #drop apples
         if self.type == "tree":
             amountnormalApple = random.randrange(1,10)
             while amountnormalApple > 0:

@@ -26,7 +26,7 @@ class wave():
         spawnx = self.spawnrange * sin(angle)
         spawny = self.spawnrange * cos(angle)
 
-        enemy.position.x = spawnx
-        enemy.position.y = spawny
+        enemy.position.x = spawnx+15*50
+        enemy.position.y = spawny+15*50
         self.object_list.add(enemy)
         self.enemy_list.add(enemy)

@@ -15,8 +15,9 @@ class App:
 
     deltaTime = 0
 
-    difficultyscalingspeed = 0.01
+    difficultyscalingspeed = 0.002
     difficultyscaling = 1
+    tree_list = pygame.sprite.Group()
 
     def __init__(self):
         self._running = True
@@ -31,18 +32,14 @@ class App:
 
         #Create Tilemap
         self.tilemap = tilemap()
-        
         self.enemies =  pygame.sprite.Group()
 
-
         #Start:
-
-        self.player = Player(self.object_list,self.enemies,'player.png',(0.1,0.1),False,0,100,100,2,100,0.5,self.tilemap)
-
+        self.player = Player(self.object_list, self.tree_list,self.enemies,'player.png',(0.1,0.1),False,0,150,10,2,100,0.5,self.tilemap)
         self.object_list.add(self.player)
 
 
-        self.wavedelay = 20
+        self.wavedelay = 15
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -61,10 +58,11 @@ class App:
         if self.wavedelay <= 0:
             #start new wave
             newwave = wave(self.object_list,self.enemies,[
-                enemy(self.object_list,'player.png',(0.1,0.1),(0,0),20,self.player,2,100,1,5)
-                ])
+                enemy(self.object_list,self.tree_list,'player.png',(0.1,0.1),(0,0),20,self.player,3,300,1,5)
+                ],
+                (2,5),500)
 
-            self.wavedelay = 20
+            self.wavedelay = 15
 
         pass
     def on_render(self):
@@ -72,21 +70,32 @@ class App:
         self.object_list.draw_objects(self.player,self.deltaTime,self.tilemap) # draw player
 
         #UI
-        font = pygame.font.Font('fonts/LilitaOne-Regular.ttf', 32)
-        text = font.render('Apples: '+str(self.player.normalApples), True, (0,0,255))
-        textRect = text.get_rect()
-        self.screen.blit(text, textRect)
-        text = font.render('Seeds: '+str(self.player.seeds[0]), True, (0,0,255))
-        textRect = text.get_rect()
-        textRect.centery = 50
-        self.screen.blit(text, textRect)
+        self.addtexttoui('Apples: '+str(self.player.normalApples), (0,25), (255,50,50))
+        self.addtexttoui('Seeds: '+str(self.player.seeds[0]), (0,50), (255,50,50))
+        self.addtexttoui('HP: '+str(self.player.health), (0,self.height-100), (255,50,50))
+        self.addtexttoui('Score: '+str(self.player.score), (self.weight/2-75,25), (255,50,50))
+        #controls ui
+        self.addtexttoui('Controls:', (self.weight-225,25), (255,75,75),25)
+        self.addtexttoui('[WASD] to walk', (self.weight-225,50), (255,75,75),25)
+        self.addtexttoui('[F] to plant', (self.weight-225,75), (255,75,75),25)
+        self.addtexttoui('[M1] to shoot apple', (self.weight-225,100), (255,75,75),25)
+
+
+
 
         pygame.display.flip()
 
         pass
     def on_cleanup(self):
         pygame.quit()
- 
+    def addtexttoui(self, text, pos, color,fontsize = 32):
+        font = pygame.font.Font('fonts/LilitaOne-Regular.ttf', fontsize)
+
+        uitext = font.render(text,True, color)
+        textRect = uitext.get_rect()
+        textRect.midleft = pos
+        self.screen.blit(uitext,textRect)
+
     def on_execute(self):
         if self.on_init() == False:
             self._running = False

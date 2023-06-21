@@ -12,9 +12,10 @@ class Player(gameObject):
     poisonApples = 0
     seeds = [2]
     treePlantingCooldown = 1
+    score = 0
 
-    def __init__(self,camgroup,enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
-        super(Player, self).__init__(sprite, scale, isKinematic, drag)
+    def __init__(self,camgroup, tree_list, enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
+        super(Player, self).__init__(sprite, scale, isKinematic, drag,(50*15,50*15))
         self.cameragroup = camgroup
         self.speed = speed
         self.drag = drag
@@ -29,6 +30,7 @@ class Player(gameObject):
         self.baseattackdelay = baseattackdelay
         self.attackdelay = 0
         self.worldmap = map
+        self.tree_list = tree_list
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -116,3 +118,4 @@ class Player(gameObject):
                     spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50
                     spawned.player = self
                     self.cameragroup.add(spawned)
+                    self.tree_list.add(spawned)

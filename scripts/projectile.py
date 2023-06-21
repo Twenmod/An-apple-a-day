@@ -45,6 +45,10 @@ class projectile (gameObject):
             
 
     def die(self):
-        #particlesystem("Box.png",self.object_list,(1,10),0.5,-0.1,(1,1),(1,10),5,(self.rect.centerx, self.rect.centery))
+        if (self.playershot):
+            part = particle((1,1),False,0,(self.rect.centerx, self.rect.centery),["applehit/stage0.png","applehit/stage1.png","applehit/stage2.png","applehit/stage3.png"],0.025)
+        else:
+            part = particle((1,1),False,0,(self.rect.centerx, self.rect.centery),["syringehit/stage0.png","syringehit/stage1.png","syringehit/stage2.png","syringehit/stage3.png"],0.025)
+        self.object_list.add(part)
         self.kill()
         pass

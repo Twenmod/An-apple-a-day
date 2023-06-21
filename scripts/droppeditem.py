@@ -26,6 +26,7 @@ class droppeditem (gameObject):
     def pickup(self):
         if (self.item == "normalApple"):
             self.player.normalApples += 1
+            self.player.score += 1
         elif (self.item == "normalSeeds"):
             self.player.seeds[0] += 1
         self.kill()
