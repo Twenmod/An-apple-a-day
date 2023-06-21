@@ -13,9 +13,11 @@ class enemy(gameObject):
     attackDamage = 1
     walkspeed = 1
     target = None 
+    slidedelay = 0
+    currentslide = 0
 
-    def __init__(self, object_list=None, tree_list = None, sprite='Player.png', scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10):
-        super().__init__(sprite, scale, True, 0, startposition)
+    def __init__(self, object_list=None, tree_list = None, sprites=["Enemy0.png","Enemy1.png"], animationspeed=1, scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10):
+        super().__init__(sprites[0], scale, True, 0, startposition)
         self.walkspeed = walkspeed
         self.target = player
         self.attackspeed = attackspeed
@@ -24,6 +26,9 @@ class enemy(gameObject):
         self.object_list = object_list
         self.health = maxhealth
         self.tree_list = tree_list
+        self.sprites = sprites
+        self.scale = scale
+        self.animationspeed = animationspeed
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -39,6 +44,23 @@ class enemy(gameObject):
         if (self._attackcool <= 0):
             self._attackcool = self.attackspeed
             self.attack()
+
+        self.slidedelay -= deltaTime
+        if self.currentslide >= (len(self.sprites)):
+            self.currentslide = 0
+        elif (self.slidedelay <= 0):
+            self.images = []
+            img = pygame.image.load(os.path.join('images/', self.sprites[self.currentslide])).convert_alpha()
+            img.set_colorkey(255)
+            imgwidth = img.get_width()
+            imgheight = img.get_height()
+            imgsize = (imgwidth* self.scale[0], imgheight* self.scale[1]) 
+            img = pygame.transform.scale(img, imgsize)
+            self.images.append(img)
+            self.image = self.images[0]
+            self.currentslide += 1
+            self.slidedelay = self.animationspeed
+
     def attack(self):
 
         playerdir = self.target.position - self.position

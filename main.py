@@ -58,7 +58,7 @@ class App:
         if self.wavedelay <= 0:
             #start new wave
             newwave = wave(self.object_list,self.enemies,[
-                enemy(self.object_list,self.tree_list,'player.png',(0.1,0.1),(0,0),20,self.player,3,300,1,5)
+                enemy(self.object_list,self.tree_list,["Enemy0.png","Enemy1.png"],0.5,(2,2),(0,0),20,self.player,3,300,1,5)
                 ],
                 (2,5),500)
 

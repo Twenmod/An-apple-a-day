@@ -17,8 +17,9 @@ class particle(gameObject):
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
+
         self.slidedelay -= deltaTime
-        if self.currentslide >= (len(self.slides)-1):
+        if self.currentslide >= (len(self.slides)):
             self.kill()
         elif (self.slidedelay <= 0):
             self.images = []
