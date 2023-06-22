@@ -22,7 +22,7 @@ class tree(gameObject):
     stageSprites =["stage0.png", "stage1.png", "stage2.png", "stage3.png", "stage4.png"]
     type = "tree"
 
-    def __init__(self, object_list, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None):
+    def __init__(self, object_list, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None, tile=None):
         super(tree, self).__init__("tree/stage0.png", scale, True, 0,startpos)
         print("Treeinit")
         self.scale = scale
@@ -30,6 +30,8 @@ class tree(gameObject):
         self.type = type
         self.player = player
         self.object_list = object_list
+        tile.plantable = False
+        self.tile = tile
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -91,5 +93,6 @@ class tree(gameObject):
     def takedamage(self, damage):
         self.health -= damage
         if (self.health <= 0):
+            self.tile.plantable = True
             self.kill()
 

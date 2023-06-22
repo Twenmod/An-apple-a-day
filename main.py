@@ -35,7 +35,7 @@ class App:
         self.enemies =  pygame.sprite.Group()
 
         #Start:
-        self.player = Player(self.object_list, self.tree_list,self.enemies,'player.png',(0.1,0.1),False,0,150,10,2,100,0.5,self.tilemap)
+        self.player = Player(self.object_list, self.tree_list,self.enemies,'player.png',['playerstep0.png','playerstep1.png'],(0.1,0.1),False,0,150,10,2,100,0.5,self.tilemap)
         self.object_list.add(self.player)
 
 

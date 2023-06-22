@@ -13,8 +13,11 @@ class Player(gameObject):
     seeds = [2]
     treePlantingCooldown = 1
     score = 0
+    walkanimspeed = 0.15
+    slidedelay = 0
+    currentslide = 0
 
-    def __init__(self,camgroup, tree_list, enemylist, sprite='Player.png', scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
+    def __init__(self,camgroup, tree_list, enemylist, sprite='Player.png',walkanim=['playerstep0.png','playerstep1.png'], scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
         super(Player, self).__init__(sprite, scale, isKinematic, drag,(50*15,50*15))
         self.cameragroup = camgroup
         self.speed = speed
@@ -31,6 +34,9 @@ class Player(gameObject):
         self.attackdelay = 0
         self.worldmap = map
         self.tree_list = tree_list
+        self.walkanimsprites = walkanim
+        self.sprite = sprite
+        self.scale = scale
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -46,6 +52,34 @@ class Player(gameObject):
         if mouse[0]:
             if self.attackdelay <= 0:
                 self.attack("normalapple", mousepos)
+
+        # walk animation
+        if (pygame.Vector2(self.horizontalinput,self.verticalinput).magnitude() > 0):
+            self.slidedelay -= deltaTime
+            if self.currentslide >= (len(self.walkanimsprites)):
+                self.currentslide = 0
+            elif (self.slidedelay <= 0):
+                self.images = []
+                img = pygame.image.load(os.path.join('images/', self.walkanimsprites[self.currentslide])).convert_alpha()
+                img.set_colorkey(255)
+                imgwidth = img.get_width()
+                imgheight = img.get_height()
+                imgsize = (imgwidth* self.scale[0], imgheight* self.scale[1]) 
+                img = pygame.transform.scale(img, imgsize)
+                self.images.append(img)
+                self.image = self.images[0]
+                self.currentslide += 1
+                self.slidedelay = self.walkanimspeed
+        else:
+            self.images = []
+            img = pygame.image.load(os.path.join('images/', self.sprite)).convert_alpha()
+            img.set_colorkey(255)
+            imgwidth = img.get_width()
+            imgheight = img.get_height()
+            imgsize = (imgwidth* self.scale[0], imgheight* self.scale[1]) 
+            img = pygame.transform.scale(img, imgsize)
+            self.images.append(img)
+            self.image = self.images[0]
 
     def on_event(self, event):
         super().on_event(event)
@@ -109,10 +143,10 @@ class Player(gameObject):
                 closestdist = dist
                 closesttile = tile
         if (closesttile != None):
-            if (closesttile.rect.collidepoint(plant_position)): # test if on dirt
+            if (closesttile.rect.collidepoint(plant_position) and closesttile.plantable): # test if on dirt
                 if (self.seeds[typetospawn] > 0):
                     self.seeds[typetospawn] -= 1
-                    treetypes = [tree(self.cameragroup,(4,4),40,"tree",(0,0),self)]
+                    treetypes = [tree(self.cameragroup,(4,4),40,"tree",(0,0),self,closesttile)]
                     spawned = treetypes[typetospawn]
                     spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
                     spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50
