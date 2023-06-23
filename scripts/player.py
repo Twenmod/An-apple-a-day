@@ -146,7 +146,7 @@ class Player(gameObject):
             if (closesttile.rect.collidepoint(plant_position) and closesttile.plantable): # test if on dirt
                 if (self.seeds[typetospawn] > 0):
                     self.seeds[typetospawn] -= 1
-                    treetypes = [tree(self.cameragroup,(4,4),40,"tree",(0,0),self,closesttile)]
+                    treetypes = [tree(self.cameragroup,(4,4),4,"tree",(0,0),self,closesttile)]
                     spawned = treetypes[typetospawn]
                     spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
                     spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50

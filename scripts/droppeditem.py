@@ -29,5 +29,8 @@ class droppeditem (gameObject):
             self.player.score += 1
         elif (self.item == "normalSeeds"):
             self.player.seeds[0] += 1
+        elif (self.item == "heartPickup"):
+            if(self.player.health < self.player.maxhealth):
+                self.player.health += 1
         self.kill()
         pass

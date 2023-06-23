@@ -15,7 +15,7 @@ class tree(gameObject):
 
     health = 5
 
-    growthStages = [0,25,75,125,200]
+    growthStages = [0,25,75,125,225]
     growthStage = 0
     growthSpeed = 1
     growth = 0
@@ -36,7 +36,7 @@ class tree(gameObject):
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
         #grow
-        self.growth += deltaTime*self.growthSpeed
+        self.growth += deltaTime*self.growthSpeed*random.randrange(1,6,1)
         #print("Tree: "+ str(self.growthStage) + " | " + str(len(self.growthStages)-1))
         #Check growth
         if (self.growthStage < len(self.growthStages)-1):
@@ -65,7 +65,7 @@ class tree(gameObject):
     def harvest(self):
         #drop apples
         if self.type == "tree":
-            amountnormalApple = random.randrange(1,10)
+            amountnormalApple = random.randrange(1,20)
             while amountnormalApple > 0:
                 amountnormalApple-=1
                 drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalApple")
@@ -76,6 +76,9 @@ class tree(gameObject):
         self.growthStage -= 1
         self.change_stage(self.growthStage)
 
+        #Particles
+        part = particle((4,4),True,0,self.rect.topleft,["tree/harvest0.png","tree/harvest1.png","tree/harvest2.png","tree/harvest3.png"],0.15)
+        self.object_list.add(part)
 
         pass
 
