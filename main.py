@@ -142,7 +142,7 @@ class Mainlevel:
 
         pass
     def on_render(self):
-        self.screen.fill((0,0,0))
+        self.screen.fill((97,184,117))
         self.object_list.draw_objects(self.player,self.deltaTime,self.tilemap) # draw player
 
         #UI

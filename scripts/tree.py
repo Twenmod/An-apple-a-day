@@ -15,11 +15,11 @@ class tree(gameObject):
 
     health = 5
 
-    growthStages = [0,25,75,125,225]
+    growthStages = [0,25,75,125,175,275]
     growthStage = 0
     growthSpeed = 1
     growth = 0
-    stageSprites =["stage0.png", "stage1.png", "stage2.png", "stage3.png", "stage4.png"]
+    stageSprites =["stage0.png", "stage1.png", "stage2.png","stage2-3.png", "stage3.png", "stage4.png"]
     type = "tree"
 
     def __init__(self, object_list, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None, tile=None):
@@ -94,8 +94,20 @@ class tree(gameObject):
         pass
 
     def takedamage(self, damage):
-        self.health -= damage
-        if (self.health <= 0):
+        if (self.growthStage == 0):
             self.tile.plantable = True
             self.kill()
+        elif (self.growthStage==5):
+            self.harvest()
+        else:
+            #return to last stage
+            self.growth = self.growthStages[self.growthStage-1]
+            self.growthStage -= 1
+            self.change_stage(self.growthStage)
+
+            #Particles
+            part = particle((4,4),True,0,self.rect.topleft,["tree/harvest0.png","tree/harvest1.png","tree/harvest2.png","tree/harvest3.png"],0.15)
+            self.object_list.add(part)
+
+
 

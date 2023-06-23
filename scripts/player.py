@@ -8,7 +8,7 @@ from scripts.projectile import *
 
 class Player(gameObject):
 
-    normalApples = 10
+    normalApples = 20
     poisonApples = 0
     seeds = [2]
     treePlantingCooldown = 1
@@ -18,7 +18,7 @@ class Player(gameObject):
     currentslide = 0
 
     def __init__(self,camgroup, tree_list, enemylist, sprite='Player.png',walkanim=['playerstep0.png','playerstep1.png'], scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
-        super(Player, self).__init__(sprite, scale, isKinematic, drag,(50*15,50*15))
+        super(Player, self).__init__(sprite, scale, isKinematic, drag,(50*22,50*15))
         self.cameragroup = camgroup
         self.speed = speed
         self.drag = drag
@@ -146,7 +146,7 @@ class Player(gameObject):
             if (closesttile.rect.collidepoint(plant_position) and closesttile.plantable): # test if on dirt
                 if (self.seeds[typetospawn] > 0):
                     self.seeds[typetospawn] -= 1
-                    treetypes = [tree(self.cameragroup,(4,4),4,"tree",(0,0),self,closesttile)]
+                    treetypes = [tree(self.cameragroup,(4,4),5.5,"tree",(0,0),self,closesttile)]
                     spawned = treetypes[typetospawn]
                     spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
                     spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50

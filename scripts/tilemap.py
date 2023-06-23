@@ -1,18 +1,20 @@
 import os
 import pygame
 from pygame.locals import *
+import random
 
 class tileType():
-    def __init__(self, type = "G", spritepath = "Box.png", plantable=False) -> None:
+    def __init__(self, type = "G", spritepaths = ["Box.png"], plantable=False) -> None:
         self.type = type
-        self.spritepath = "world/"+spritepath
+        self.spritepaths = spritepaths
         self.plantable = plantable
         pass
 
 
 class tile(pygame.sprite.Sprite):
-    def __init__(self, sprite = 'Box.png', scale = (1, 1), startposition = (0,0),plantable=False):
+    def __init__(self, sprites = ['Box.png'], scale = (1, 1), startposition = (0,0),plantable=False):
         print("I AM NOW EXIST AT: "+str(startposition))
+        sprite = sprites[random.randrange(0,len(sprites),1)]
         self.plantable = plantable
         pygame.sprite.Sprite.__init__(self)
         self.images = []
@@ -34,40 +36,40 @@ class tile(pygame.sprite.Sprite):
 
 class tilemap():
 
-    tiletypes = [tileType("G","Grass.png", False),tileType("D","Dirt.png", True)]
+    tiletypes = [tileType("G",["world/grass0.png","world/grass1.png","world/grass2.png"], False),tileType("D",["world/dirt0.png","world/dirt1.png","world/dirt2.png","world/dirt3.png","world/dirt4.png","world/dirt5.png"], True)]
 
     plantabletiles = []
 
     map = [
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGDDDGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGDDGGGGGGGG",
-        "GGGGGGGGGGGDDDGGGGGGGGGGGGGDDGGGGGGG",
-        "GGGGGGGGGGGDDDDGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGDDDDGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGDDGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGDDDDGGGGGGGDDGGGGGGGG",
-        "GGGGGGGGGDGGGGGDDDDGGGGGGGDDDGGGGGGG",
-        "GGGGGGGGGDDGGGGGGGGGGGGGGGDDGGGGGGGG",
-        "GGGGGDDGGGGGGGGGGDGGGGGGGGGGGGGGGGGG",
-        "GGGGDDDGGGGGGGGGGGGGDDDGGGGGGGGGGGGG",
-        "GGGGDDGGGGGGGGGGGGGGDDDGGGGGGGGGGGGG",
-        "GGGGGGGGGGDDDDDGGGGGGDDGGGGGGGGGGGGG",
-        "GGGGGGGGGDDDDDDGGDDDGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGDDDDGGDDGDGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGDDDGGGGGGGDDDGGGGGG",
-        "GGGGGGGGGGGGGGGGGDGDGGGGGGDDDDGGGGGG",
-        "GGGGGGGGGDDDGGGGGGGGGGGGGGDDDDGGGGGG",
-        "GGGGGGGGDDDDGGGGGGGGGGGGGGGDDDGGGGGG",
-        "GGGGGGGGGDDDGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGDDDDDGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGDDDDDDDDGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
-        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGDDDDGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGDDDDGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDDDDD",
+        "GGGGGGGDDGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDGDD",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDDGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGDDDGGGGGGGGGGGGGDDGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGDDDDGGGGGGGGGGGGGGGGDDDDGGGGGGG",
+        "GGGGGGDDGGGGGGDDDDGGGGGGGGGGGGGGGDDDDDDGGGGGGG",
+        "GGGGGGDDDDGGGGGGGGGGDDGGGGGGGGGGGGGGGGGGGDDGGG",
+        "GGGGGGGGGGGGGGGGGGGDDDDGGGGGGGDDGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGDGGGGGDDDDGGGGGGGDDDGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGDDGGGGGGGGGGGGGGGDDGGGGGGGGGGGGGG",
+        "GGGGGGGGGDDGGGGGGGGGGDGGGGGGGGGGGGGGGDDDDGGGGG",
+        "GGGGGGGGDDDGGGGGGGGGGGGGDDDGGGGGGGGGGGDDGGGGGG",
+        "GGGGGGGGDDGGGGGGGGGGGGGGDDDGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGDDDDDGGGGGGDDGGGGGGGGDDDGGGGGGGG",
+        "GGGGGGGGGGGGGDDDDDDGGDDDGGGGGGGGGGDDDDGGGGGGGG",
+        "GGGGGGGGGGGGGGDDDDGGDDGDGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGDDDGGGGGGGDDDGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGDGDGGGGGGDDDDGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGDDDGGGGGGGGGGGGGGDDDDGGGGGGGGGGGG",
+        "GGGGGGGGGGGGDDDDGGGGGGGGGGGGGGGDDDGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGDDDGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGDDDDDGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGDDDDDDDDGGGGGGGGGDDDGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDDDDGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGDDGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
+        "GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG",
 
 
 
@@ -90,7 +92,7 @@ class tilemap():
                     if (types.type == x):
                         ttype = types
                 
-                spawned = tile(ttype.spritepath,(0.5,0.5),(xpos, ypos),ttype.plantable)
+                spawned = tile(ttype.spritepaths,(2,2),(xpos, ypos),ttype.plantable)
                 if (spawned.plantable):
                     self.plantabletiles.append(spawned)
                 tileline.append(spawned)
