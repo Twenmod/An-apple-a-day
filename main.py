@@ -42,12 +42,15 @@ class App:
     def on_render(self):
         if not self._running: return
         self.screen.fill((75,255,75))
-
-        self.addtexttoui("An apple a day",(50,50),(255,0,0),32)
+        bg = pygame.image.load("images/Mainmenu.png").convert_alpha()
+        self.screen.blit(bg,bg.get_rect())
 
         if (self.endscreen):
+            self.addtexttoui("You died",(self.weight/2-125,self.height/2-100),(255,0,0),62)
             global score
-            self.addtexttoui("Score: "+str(score),(self.weight/2-50,self.height/2-50),(255,0,0),32)
+            self.addtexttoui("Score: "+str(score),(self.weight/2-80,self.height/2-50),(255,0,0),42)
+            global highscore
+            self.addtexttoui("Highscore: "+str(highscore),(self.weight/2-80,self.height/2-15),(255,0,0),32)
 
         pygame.display.flip()
 

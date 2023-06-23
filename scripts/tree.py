@@ -65,10 +65,10 @@ class tree(gameObject):
     def harvest(self):
         #drop apples
         if self.type == "tree":
-            amountnormalApple = random.randrange(1,20)
+            amountnormalApple = random.randrange(1,10)
             while amountnormalApple > 0:
                 amountnormalApple-=1
-                drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalApple")
+                drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"normalApple")
                 self.object_list.add(drop)
 
         #return to last stage
