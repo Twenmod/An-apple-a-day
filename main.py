@@ -12,7 +12,9 @@ from scripts.wavespawner import *
 
 Clock = pygame.time.Clock()
 
+global score
 score = 0
+global highscore
 highscore = 0
 
 class App:
@@ -29,14 +31,25 @@ class App:
     def on_loop(self):
         pass
     def on_event(self, event):
-        if event.type == pygame.KEYDOWN:
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_ESCAPE] or event.type == pygame.QUIT:
+            self._running = False
+            pygame.quit()
+        elif event.type == pygame.KEYDOWN:
             self.startgame()
         pass
     def on_render(self):
-        self.screen.fill((0,0,0))
+        if not self._running: return
+        self.screen.fill((75,255,75))
+
+        self.addtexttoui("An apple a day",(50,50),(255,0,0),32)
 
         if (self.endscreen):
-            self.addtexttoui("Score: "+str(score),(50,50),(255,255,255),32)
+            global score
+            self.addtexttoui("Score: "+str(score),(self.weight/2-50,self.height/2-50),(255,0,0),32)
+
+        pygame.display.flip()
 
     def on_cleanup(self):
         pygame.quit()
@@ -47,11 +60,8 @@ class App:
         while( self._running and not self.gamerunning):
             for event in pygame.event.get():
                 self.on_event(event)
-                #self.player.on_event(event)
             self.on_loop()
             self.on_render()
-            #self.player.on_loop()
-            #self.player.on_render()
 
         self.on_cleanup()
     def addtexttoui(self, text, pos, color,fontsize = 32):
@@ -63,10 +73,13 @@ class App:
         self.screen.blit(uitext,textRect)
 
     def startgame(self):
+        self.gamerunning = True
         theApp = Mainlevel()
         theApp.on_execute()
         self.endscreen = True
         print("Ended game?")
+        self.gamerunning = False
+        self.__init__()
         self.on_init()
 
 class Mainlevel:
@@ -84,6 +97,7 @@ class Mainlevel:
 
     def on_init(self):
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self.screen.fill((0,0,255))
         self._running = True
         self.object_list = CameraGroup()
 
@@ -100,12 +114,16 @@ class Mainlevel:
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
-            self._running = False
+            self.endgame()
         for obj in self.object_list:
             obj.on_event(event)
 
     def on_loop(self):
         self.deltaTime = (Clock.tick(30)/1000)
+
+        if self.player.health <= 0:
+            self.endgame()
+
         for obj in self.object_list:
             obj.on_loop(self.deltaTime)
 
@@ -145,7 +163,6 @@ class Mainlevel:
 
         pass
     def on_cleanup(self):
-        score = self.player.score
         pygame.quit()
     def addtexttoui(self, text, pos, color,fontsize = 32):
         font = pygame.font.Font('fonts/LilitaOne-Regular.ttf', fontsize)
@@ -154,7 +171,10 @@ class Mainlevel:
         textRect = uitext.get_rect()
         textRect.midleft = pos
         self.screen.blit(uitext,textRect)
-
+    def endgame(self):
+        global score
+        score = self.player.score
+        self._running = False
     def on_execute(self):
         if self.on_init() == False:
             self._running = False
