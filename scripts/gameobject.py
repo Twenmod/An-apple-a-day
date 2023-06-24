@@ -14,6 +14,7 @@ class gameObject(pygame.sprite.Sprite):
         self.images = []
 
         img = pygame.image.load(os.path.join('images', sprite)).convert_alpha()
+        self.mask = pygame.mask.from_surface(img)
         img.set_colorkey(255)
         imgwidth = img.get_width()
         imgheight = img.get_height()

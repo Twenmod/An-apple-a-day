@@ -73,6 +73,9 @@ class enemy(gameObject):
     def takedamage(self, damage):
         self.health -= damage
         if (self.health <= 0):
+            # Spawn particle
+            part = particle((2,2),True,0,(self.rect.topleft[0],self.rect.topleft[1]-25),["Enemy/Enemydeath0.png","Enemy/Enemydeath1.png","Enemy/Enemydeath2.png","Enemy/Enemydeath3.png"],0.2)
+            self.object_list.add(part)
             #Drop seeds
             amountofitems = random.randrange(0,10)
             while(amountofitems > 0):

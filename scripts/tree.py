@@ -56,9 +56,10 @@ class tree(gameObject):
         imgheight = img.get_height()
         imgsize = (imgwidth* self.scale[0], imgheight* self.scale[1]) 
         img = pygame.transform.scale(img, imgsize)
+        self.mask = pygame.mask.from_surface(img)
         self.images.append(img)
         self.image = self.images[0]
-        #self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect()
 
         pass
 
@@ -69,6 +70,12 @@ class tree(gameObject):
             while amountnormalApple > 0:
                 amountnormalApple-=1
                 drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"normalApple")
+                self.object_list.add(drop)
+        if self.type == "megatree":
+            amountnormalApple = random.randrange(10, 50)
+            while amountnormalApple > 0:
+                amountnormalApple-=1
+                drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-1000,1000),random.randrange(-1000,1000)),"normalApple")
                 self.object_list.add(drop)
 
         #return to last stage

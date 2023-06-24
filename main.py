@@ -91,6 +91,9 @@ class Mainlevel:
 
     difficultyscalingspeed = 0.002
     difficultyscaling = 1
+
+    startdowntime = 0
+
     tree_list = pygame.sprite.Group()
 
     def __init__(self):
@@ -113,7 +116,7 @@ class Mainlevel:
         self.object_list.add(self.player)
 
 
-        self.wavedelay = 15
+        self.wavedelay = 0
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -130,18 +133,20 @@ class Mainlevel:
         for obj in self.object_list:
             obj.on_loop(self.deltaTime)
 
-        #waves
-        self.difficultyscaling += self.difficultyscalingspeed*self.deltaTime
-        self.difficultyscaling = pygame.math.clamp(self.difficultyscaling,0,7.5)
-        self.wavedelay -= self.deltaTime * self.difficultyscaling
-        if self.wavedelay <= 0:
-            #start new wave
-            newwave = wave(self.object_list,self.enemies,[
-                enemy(self.object_list,self.tree_list,["Enemy0.png","Enemy1.png"],0.5,(2,2),(0,0),20,self.player,3,300,1,5)
-                ],
-                (2,5),500)
+        self.startdowntime -= self.deltaTime
+        if (self.startdowntime <= 0):
+            #waves
+            self.difficultyscaling += self.difficultyscalingspeed*self.deltaTime
+            self.difficultyscaling = pygame.math.clamp(self.difficultyscaling,0,7.5)
+            self.wavedelay -= self.deltaTime * self.difficultyscaling
+            if self.wavedelay <= 0:
+                #start new wave
+                newwave = wave(self.object_list,self.enemies,[
+                    enemy(self.object_list,self.tree_list,["Enemy0.png","Enemy1.png"],0.5,(2,2),(0,0),20,self.player,3,300,1,5)
+                    ],
+                    (2,5),500)
 
-            self.wavedelay = rng.randrange(0,30,1)
+                self.wavedelay = rng.randrange(0,30,1)
 
         pass
     def on_render(self):
@@ -156,9 +161,12 @@ class Mainlevel:
         #controls ui
         self.addtexttoui('Controls:', (self.weight-225,25), (255,75,75),25)
         self.addtexttoui('[WASD] to walk', (self.weight-225,50), (255,75,75),25)
-        self.addtexttoui('[F] to plant', (self.weight-225,75), (255,75,75),25)
-        self.addtexttoui('[M1] to shoot apple', (self.weight-225,100), (255,75,75),25)
-
+        self.addtexttoui('[M1] to shoot apple', (self.weight-225,75), (255,75,75),25)
+        self.addtexttoui('[E] to harvest', (self.weight-225,100), (255,75,75),25)
+        self.addtexttoui('[F] to plant', (self.weight-225,125), (255,75,75),25)
+        self.addtexttoui('(1 seed)', (self.weight-225,145), (255,75,75),15)
+        self.addtexttoui('[F] to plant MEGA tree', (self.weight-225,165), (255,75,75),25)
+        self.addtexttoui('(10 seeds)', (self.weight-225,185), (255,75,75),15)
 
 
 
