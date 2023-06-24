@@ -77,7 +77,7 @@ class App:
 
     def startgame(self):
         self.gamerunning = True
-        theApp = Mainlevel()
+        theApp = Mainlevel(self.screen)
         theApp.on_execute()
         self.endscreen = True
         print("Ended game?")
@@ -92,17 +92,16 @@ class Mainlevel:
     difficultyscalingspeed = 0.002
     difficultyscaling = 1
 
-    startdowntime = 0
+    startdowntime = 15
 
     tree_list = pygame.sprite.Group()
 
-    def __init__(self):
+    def __init__(self, screen):
         self._running = True
-        self.screen = None
+        self.screen = screen
         self.size = self.weight, self.height = 1366, 768
 
     def on_init(self):
-        self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self.screen.fill((0,0,255))
         self._running = True
         self.object_list = CameraGroup()
@@ -142,9 +141,9 @@ class Mainlevel:
             if self.wavedelay <= 0:
                 #start new wave
                 newwave = wave(self.object_list,self.enemies,[
-                    enemy(self.object_list,self.tree_list,["Enemy0.png","Enemy1.png"],0.5,(2,2),(0,0),20,self.player,3,300,1,5)
+                    enemy(self.object_list,self.tree_list,["Enemy0.png","Enemy1.png"],0.5,(2,2),(0,0),20,self.player,3,200,1,5)
                     ],
-                    (2,5),500)
+                    (2,5),1000)
 
                 self.wavedelay = rng.randrange(0,30,1)
 
@@ -159,14 +158,14 @@ class Mainlevel:
         self.addtexttoui('HP: '+str(self.player.health), (0,self.height-100), (255,50,50))
         self.addtexttoui('Score: '+str(self.player.score), (self.weight/2-75,25), (255,50,50))
         #controls ui
-        self.addtexttoui('Controls:', (self.weight-225,25), (255,75,75),25)
-        self.addtexttoui('[WASD] to walk', (self.weight-225,50), (255,75,75),25)
-        self.addtexttoui('[M1] to shoot apple', (self.weight-225,75), (255,75,75),25)
-        self.addtexttoui('[E] to harvest', (self.weight-225,100), (255,75,75),25)
-        self.addtexttoui('[F] to plant', (self.weight-225,125), (255,75,75),25)
-        self.addtexttoui('(1 seed)', (self.weight-225,145), (255,75,75),15)
-        self.addtexttoui('[F] to plant MEGA tree', (self.weight-225,165), (255,75,75),25)
-        self.addtexttoui('(10 seeds)', (self.weight-225,185), (255,75,75),15)
+        self.addtexttoui('Controls:', (self.weight-250,25), (255,75,75),25)
+        self.addtexttoui('[WASD] to walk', (self.weight-250,50), (255,75,75),25)
+        self.addtexttoui('[M1] to shoot apple', (self.weight-250,75), (255,75,75),25)
+        self.addtexttoui('[E] to harvest', (self.weight-250,100), (255,75,75),25)
+        self.addtexttoui('[F] to plant', (self.weight-250,125), (255,75,75),25)
+        self.addtexttoui('(1 seed)', (self.weight-250,145), (255,75,75),15)
+        self.addtexttoui('[G] to plant MEGA tree', (self.weight-250,165), (255,75,75),25)
+        self.addtexttoui('(10 seeds)', (self.weight-250,185), (255,75,75),15)
 
 
 
@@ -174,7 +173,7 @@ class Mainlevel:
 
         pass
     def on_cleanup(self):
-        pygame.quit()
+        pass
     def addtexttoui(self, text, pos, color,fontsize = 32):
         font = pygame.font.Font('fonts/LilitaOne-Regular.ttf', fontsize)
 
@@ -185,6 +184,9 @@ class Mainlevel:
     def endgame(self):
         global score
         score = self.player.score
+        global highscore
+        if (score > highscore):
+            highscore = score
         self._running = False
     def on_execute(self):
         if self.on_init() == False:

@@ -10,7 +10,7 @@ class Player(gameObject):
 
     normalApples = 20
     poisonApples = 0
-    seeds = [20]
+    seeds = [3]
     treePlantingCooldown = 1
     score = 0
     walkanimspeed = 0.15

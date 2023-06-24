@@ -72,7 +72,7 @@ class tree(gameObject):
                 drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"normalApple")
                 self.object_list.add(drop)
         if self.type == "megatree":
-            amountnormalApple = random.randrange(10, 50)
+            amountnormalApple = random.randrange(10, 100)
             while amountnormalApple > 0:
                 amountnormalApple-=1
                 drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-1000,1000),random.randrange(-1000,1000)),"normalApple")

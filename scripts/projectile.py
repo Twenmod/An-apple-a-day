@@ -9,7 +9,9 @@ class projectile (gameObject):
     lifeTime = 1
     damage  = 1
 
-    def __init__(self, player, object_list, enemylist, sprite='Box.png', scale=(0.1,0.1), drag=0, startposition=(0,0), startvelocity=(0,0), playershot=False,lifeTime=1, damage = 1):
+    currentRot = 0
+
+    def __init__(self, player, object_list, enemylist, sprite='Box.png', scale=(0.1,0.1), drag=0, startposition=(0,0), startvelocity=(0,0), playershot=False,lifeTime=1, damage = 1, rotationSpeed = -350):
         super().__init__(sprite, scale, False, drag, startposition)
         self.velocity_x = startvelocity.x
         self.velocity_y = -startvelocity.y
@@ -19,6 +21,9 @@ class projectile (gameObject):
         self.player = player
         self.playershot = playershot
         self.enemylist = enemylist
+        self.rotationSpeed = rotationSpeed
+        self.sprite = sprite
+        self.scale = scale
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
@@ -41,8 +46,25 @@ class projectile (gameObject):
                 hit = pygame.sprite.spritecollideany(self,self.enemylist)
                 hit.takedamage(self.damage)
                 self.die()
+    
+        #rotate
+        self.currentRot += deltaTime*self.rotationSpeed
 
-            
+        self.images = []
+
+        img = pygame.image.load(os.path.join('images', self.sprite)).convert_alpha()
+        self.mask = pygame.mask.from_surface(img)
+        img.set_colorkey(255)
+        imgwidth = img.get_width()
+        imgheight = img.get_height()
+        imgsize = (imgwidth* self.scale[0], imgheight* self.scale[1]) 
+        img = pygame.transform.scale(img, imgsize)
+        img = pygame.transform.rotate(img, self.currentRot)
+        self.images.append(img)
+        self.image = self.images[0]
+        self.rect = self.image.get_rect(center=self.rect.center)
+
+
 
     def die(self):
         if (self.playershot):

@@ -16,7 +16,7 @@ class enemy(gameObject):
     slidedelay = 0
     currentslide = 0
 
-    def __init__(self, object_list=None, tree_list = None, sprites=["Enemy0.png","Enemy1.png"], animationspeed=1, scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10):
+    def __init__(self, object_list=None, tree_list = None, sprites=["Enemy0.png","Enemy1.png"], animationspeed=1, scale=(0.5,0.5), startposition=(0,0), walkspeed=1, player=None, attackspeed = 1, attackVelocity = 1, attackDamage = 1, maxhealth = 10, inaccuracy = 50):
         super().__init__(sprites[0], scale, True, 0, startposition)
         self.walkspeed = walkspeed
         self.target = player
@@ -29,6 +29,7 @@ class enemy(gameObject):
         self.sprites = sprites
         self.scale = scale
         self.animationspeed = animationspeed
+        self.inaccuracy = inaccuracy
 
     def on_loop(self, deltaTime):
         super().on_loop(deltaTime)
