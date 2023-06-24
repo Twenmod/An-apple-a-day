@@ -23,7 +23,7 @@ class tree(gameObject):
     type = "tree"
 
     def __init__(self, object_list, scale=(0.5,0.5), growthSpeed=1, type="tree", startpos=[0,0],player = None, tile=None):
-        super(tree, self).__init__("tree/stage0.png", scale, True, 0,startpos)
+        super(tree, self).__init__(type+"/stage0.png", scale, True, 0,startpos)
         print("Treeinit")
         self.scale = scale
         self.growthSpeed = growthSpeed
@@ -69,13 +69,19 @@ class tree(gameObject):
             amountnormalApple = random.randrange(1,10)
             while amountnormalApple > 0:
                 amountnormalApple-=1
-                drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"normalApple")
+                drop = droppeditem(self.player,"applepickup.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,200)),"normalApple")
                 self.object_list.add(drop)
         if self.type == "megatree":
             amountnormalApple = random.randrange(10, 100)
             while amountnormalApple > 0:
                 amountnormalApple-=1
-                drop = droppeditem(self.player,"NormalApple.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-1000,1000),random.randrange(-1000,1000)),"normalApple")
+                drop = droppeditem(self.player,"applepickup.png",(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-1000,1000),random.randrange(-1000,500)),"normalApple")
+                self.object_list.add(drop)
+        if self.type == "hearttree":
+            amountnormalApple = random.randrange(1, 3)
+            while amountnormalApple > 0:
+                amountnormalApple-=1
+                drop = droppeditem(self.player,"heart.png",(3,3),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,100)),"heartPickup")
                 self.object_list.add(drop)
 
         #return to last stage

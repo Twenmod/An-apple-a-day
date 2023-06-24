@@ -10,7 +10,7 @@ class Player(gameObject):
 
     normalApples = 20
     poisonApples = 0
-    seeds = [3]
+    seeds = [10]
     treePlantingCooldown = 1
     score = 0
     walkanimspeed = 0.15
@@ -102,6 +102,9 @@ class Player(gameObject):
         if keys[pygame.K_g] and self.treePlantingCooldown <= 0:
             self.plant_tree(1)
             self.treePlantingCooldown = 0.25
+        if keys[pygame.K_h] and self.treePlantingCooldown <= 0:
+            self.plant_tree(2)
+            self.treePlantingCooldown = 0.25
 
         pass
 
@@ -149,9 +152,12 @@ class Player(gameObject):
             if (closesttile.rect.collidepoint(plant_position) and closesttile.plantable): # test if on dirt
                 if (self.seeds[0] > 0):
                     if (typetospawn == 1 and self.seeds[0] < 10): return # return if not enough for MEGATREE
-                    self.seeds[0] -= 1
-                    if (typetospawn == 1): self.seeds[0] -= 9
-                    treetypes = [tree(self.cameragroup,(4,4),5.5,"tree",(0,0),self,closesttile),tree(self.cameragroup,(8,8),2,"megatree",(0,0),self,closesttile)]
+                    if (typetospawn == 2 and self.seeds[0] < 5): return # return if not enough for hearttree
+                    if (typetospawn == 0): self.seeds[0] -= 1
+                    if (typetospawn == 1): self.seeds[0] -= 10
+                    if (typetospawn == 2): self.seeds[0] -= 5
+
+                    treetypes = [tree(self.cameragroup,(4,4),5.5,"tree",(0,0),self,closesttile),tree(self.cameragroup,(8,8),2,"megatree",(0,0),self,closesttile),tree(self.cameragroup,(4,4),5.5,"hearttree",(0,0),self,closesttile)]
                     spawned = treetypes[typetospawn]
                     spawned.position.x = round(((self.position.x - self.rect.width/2)/50))*50
                     spawned.position.y = round(((self.position.y - self.rect.height/2)/50))*50

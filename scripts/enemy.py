@@ -80,7 +80,7 @@ class enemy(gameObject):
             #Drop seeds
             amountofitems = random.randrange(0,10)
             while(amountofitems > 0):
-                drops = [None,None,None,None,None,None,droppeditem(self.target,'heart.png',(1,1),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"heartPickup"),droppeditem(self.target,'seeds.png',(2.5,2.5),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"normalSeeds"), droppeditem(self.target,'seeds.png',(2.5,2.5),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalSeeds")]
+                drops = [None,None,None,None,None,None,droppeditem(self.target,'heart.png',(3,3),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"heartPickup"),droppeditem(self.target,'seeds.png',(3,3),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-400,400),random.randrange(-400,400)),"normalSeeds"), droppeditem(self.target,'seeds.png',(2.5,2.5),False,5,(self.rect.centerx,self.rect.centery),(random.randrange(-200,200),random.randrange(-200,200)),"normalSeeds")]
                 amountofitems-=1 
                 drop = drops[random.randrange(0,len(drops),1)]
                 if (drop != None):
