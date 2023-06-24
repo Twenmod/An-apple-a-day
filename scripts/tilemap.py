@@ -36,7 +36,7 @@ class tile(pygame.sprite.Sprite):
 
 class tilemap():
 
-    tiletypes = [tileType("G",["world/grass0.png","world/grass1.png","world/grass2.png"], False),tileType("D",["world/dirt0.png","world/dirt1.png","world/dirt2.png","world/dirt3.png","world/dirt4.png","world/dirt5.png"], True)]
+    tiletypes = [tileType("G",["world/grass0.png","world/grass1.png","world/grass2.png","world/grass3.png","world/grass4.png","world/grass5.png"], False),tileType("D",["world/dirt0.png","world/dirt1.png","world/dirt2.png","world/dirt3.png","world/dirt4.png","world/dirt5.png","world/dirt6.png","world/dirt7.png"], True)]
 
     plantabletiles = []
 
