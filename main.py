@@ -162,11 +162,12 @@ class Mainlevel:
         self.addtexttoui('[WASD] to walk', (self.weight-250,50), (255,75,75),25)
         self.addtexttoui('[M1] to shoot apple', (self.weight-250,75), (255,75,75),25)
         self.addtexttoui('[E] to harvest', (self.weight-250,100), (255,75,75),25)
-        self.addtexttoui('[F] to plant', (self.weight-250,125), (255,75,75),25)
+        self.addtexttoui('[F] to plant apple tree', (self.weight-250,125), (255,75,75),25)
         self.addtexttoui('(1 seed)', (self.weight-250,145), (255,75,75),15)
         self.addtexttoui('[G] to plant MEGA tree', (self.weight-250,165), (255,75,75),25)
         self.addtexttoui('(10 seeds)', (self.weight-250,185), (255,75,75),15)
-
+        self.addtexttoui('[H] to plant heart tree', (self.weight-250,205), (255,75,75),25)
+        self.addtexttoui('(5 seeds)', (self.weight-250,225), (255,75,75),15)
 
 
         pygame.display.flip()
