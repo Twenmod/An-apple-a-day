@@ -87,6 +87,8 @@ class App:
 
 class Mainlevel:
 
+    isPaused = False
+
     deltaTime = 0
 
     difficultyscalingspeed = 0.002
@@ -194,10 +196,11 @@ class Mainlevel:
             self._running = False
 
         while( self._running ):
-            for event in pygame.event.get():
-                self.on_event(event)
-                #self.player.on_event(event)
-            self.on_loop()
+            if not self.isPaused:
+                for event in pygame.event.get():
+                    self.on_event(event)
+                    #self.player.on_event(event)
+                self.on_loop()
             self.on_render()
             #self.player.on_loop()
             #self.player.on_render()

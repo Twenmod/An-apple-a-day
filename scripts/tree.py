@@ -59,7 +59,6 @@ class tree(gameObject):
         self.mask = pygame.mask.from_surface(img)
         self.images.append(img)
         self.image = self.images[0]
-        self.rect = self.image.get_rect()
 
         pass
 
@@ -119,7 +118,7 @@ class tree(gameObject):
             self.change_stage(self.growthStage)
 
             #Particles
-            part = particle((4,4),True,0,self.rect.topleft,["tree/harvest0.png","tree/harvest1.png","tree/harvest2.png","tree/harvest3.png"],0.15)
+            part = particle((4,4),True,0,(self.rect.topleft[0],self.rect.topleft[1]),["tree/harvest0.png","tree/harvest1.png","tree/harvest2.png","tree/harvest3.png"],0.15)
             self.object_list.add(part)
 
 

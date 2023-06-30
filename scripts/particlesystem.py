@@ -9,7 +9,7 @@ class particle(gameObject):
     currentslide = 0
 
     def __init__(self, scale=..., isKinematic=False, drag=0, startposition=..., slides=["tree/stage0.png","tree/stage1.png","tree/stage2.png"],slidespeed=1):
-        super().__init__("particles/"+slides[0], scale, isKinematic, drag, startposition)
+        super().__init__("particles/"+slides[0], scale, isKinematic, drag, (startposition[0]-15,startposition[1]-10))
         self.slides = slides
         self.slidespeed = slidespeed
         self.slidedelay = 0

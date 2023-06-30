@@ -33,7 +33,7 @@ class droppeditem (gameObject):
         elif (self.item == "heartPickup"):
             if(self.player.health < self.player.maxhealth):
                 self.player.health += 1
-        part = particle((2,2),False,0,(self.rect.topleft[0]-15,self.rect.topleft[1]-10),["pickup/pickup0.png","pickup/pickup1.png","pickup/pickup2.png","pickup/pickup3.png"],0.1)
+        part = particle((2,2),False,0,(self.rect.topleft[0],self.rect.topleft[1]),["pickup/pickup0.png","pickup/pickup1.png","pickup/pickup2.png","pickup/pickup3.png"],0.1)
         self.player.cameragroup.add(part)
         self.kill()
         pass
