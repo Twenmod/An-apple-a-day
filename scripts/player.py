@@ -18,7 +18,7 @@ class Player(gameObject):
     currentslide = 0
 
     def __init__(self,camgroup, tree_list, enemylist, sprite='Player.png',walkanim=['playerstep0.png','playerstep1.png'], scale=(0.5,0.5), isKinematic=False, drag=0, speed = 1, maxhealth=10, baseattackdamage = 1, baseattackvelocity = 100,baseattackdelay = 1, map=None):
-        super(Player, self).__init__(sprite, scale, isKinematic, drag,(50*22,50*15))
+        super(Player, self).__init__(sprite, scale, isKinematic, drag,(50*22,50*18))
         self.cameragroup = camgroup
         self.speed = speed
         self.drag = drag
