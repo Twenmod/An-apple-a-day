@@ -96,6 +96,8 @@ class Mainlevel:
 
     startdowntime = 15
 
+    timer = 0
+
     tree_list = pygame.sprite.Group()
 
     def __init__(self, screen):
@@ -125,8 +127,14 @@ class Mainlevel:
         for obj in self.object_list:
             obj.on_event(event)
 
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_ESCAPE]:
+            self.isPaused = not self.isPaused
+
     def on_loop(self):
-        self.deltaTime = (Clock.tick(30)/1000)
+
+        self.timer += self.deltaTime
 
         if self.player.health <= 0:
             self.endgame()
@@ -151,6 +159,7 @@ class Mainlevel:
 
         pass
     def on_render(self):
+
         self.screen.fill((97,184,117))
         self.object_list.draw_objects(self.player,self.deltaTime,self.tilemap) # draw player
 
@@ -159,6 +168,8 @@ class Mainlevel:
         self.addtexttoui('Seeds: '+str(self.player.seeds[0]), (0,50), (255,50,50))
         self.addtexttoui('HP: '+str(self.player.health), (0,self.height-100), (255,50,50))
         self.addtexttoui('Score: '+str(self.player.score), (self.weight/2-75,25), (255,50,50))
+        self.addtexttoui('Time survived: '+str(round(self.timer,2)), (self.weight-300,self.height-100), (255,50,50))
+
         #controls ui
         self.addtexttoui('Controls:', (self.weight-250,25), (255,75,75),25)
         self.addtexttoui('[WASD] to walk', (self.weight-250,50), (255,75,75),25)
@@ -170,7 +181,8 @@ class Mainlevel:
         self.addtexttoui('(10 seeds)', (self.weight-250,185), (255,75,75),15)
         self.addtexttoui('[H] to plant heart tree', (self.weight-250,205), (255,75,75),25)
         self.addtexttoui('(5 seeds)', (self.weight-250,225), (255,75,75),15)
-
+        if self.isPaused:
+            self.addtexttoui('PAUSED... ', (self.weight/2-50,self.height/2-25), (255,50,50))
 
         pygame.display.flip()
 
@@ -196,11 +208,13 @@ class Mainlevel:
             self._running = False
 
         while( self._running ):
+            self.deltaTime = (Clock.tick(30)/1000)
+
             if not self.isPaused:
-                for event in pygame.event.get():
-                    self.on_event(event)
-                    #self.player.on_event(event)
                 self.on_loop()
+            for event in pygame.event.get():
+                self.on_event(event)
+                #self.player.on_event(event)
             self.on_render()
             #self.player.on_loop()
             #self.player.on_render()
