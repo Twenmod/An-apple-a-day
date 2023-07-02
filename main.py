@@ -9,6 +9,7 @@ from scripts.tree import *
 from scripts.tilemap import *
 from scripts.enemy import *
 from scripts.wavespawner import *
+from scripts.mainmenuobjects import *
 
 Clock = pygame.time.Clock()
 
@@ -17,6 +18,7 @@ score = 0
 global highscore
 highscore = 0
 
+
 class App:
     gamerunning = False
     endscreen = False
@@ -24,11 +26,24 @@ class App:
         self._running = True
         self.screen = None
         self.size = self.weight, self.height = 1366, 768
+        self.object_list = pygame.sprite.Group()
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
+    
+    particlespawnrate = 0.1
+    rate = 1
     def on_loop(self):
+        for obj in self.object_list:
+            obj.on_loop(self.deltaTime)
+    
+        self.rate -= self.deltaTime
+        if self.rate <= 0:
+            self.rate = self.particlespawnrate
+            # spawn apple
+            part = mainmenuparticle("NormalApple.png",(2.5,2.5),False,5,200,(random.randrange(0,self.weight),-50),(random.randrange(-50,50,1),0),20)
+            self.object_list.add(part)
         pass
     def on_event(self, event):
         keys = pygame.key.get_pressed()
@@ -41,7 +56,13 @@ class App:
         pass
     def on_render(self):
         if not self._running: return
-        self.screen.fill((75,255,75))
+
+
+        self.screen.fill((97,184,117))
+
+
+        self.object_list.draw(self.screen) # draw background apples
+
         bg = pygame.image.load("images/Mainmenu.png").convert_alpha()
         self.screen.blit(bg,bg.get_rect())
 
@@ -61,6 +82,7 @@ class App:
             self._running = False
 
         while( self._running and not self.gamerunning):
+            self.deltaTime = (Clock.tick(30)/1000)
             for event in pygame.event.get():
                 self.on_event(event)
             self.on_loop()
@@ -82,8 +104,13 @@ class App:
         self.endscreen = True
         print("Ended game?")
         self.gamerunning = False
-        self.__init__()
-        self.on_init()
+        global quitting
+        if quitting:
+            self._running = False
+            self.on_cleanup
+        else:
+            self.__init__()
+            self.on_init()
 
 class Mainlevel:
 
@@ -123,6 +150,8 @@ class Mainlevel:
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
+            global quitting
+            quitting = True
             self.endgame()
         for obj in self.object_list:
             obj.on_event(event)

@@ -24,6 +24,8 @@ class gameObject(pygame.sprite.Sprite):
         self.image = self.images[0]
         self.rect = self.image.get_rect()
         self.position = pygame.math.Vector2(startposition)
+        self.rect.x = self.position.x
+        self.rect.y = self.position.y
         pass
 
     def on_loop(self, deltaTime):
