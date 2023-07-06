@@ -17,6 +17,8 @@ global score
 score = 0
 global highscore
 highscore = 0
+global quitting
+quitting = False
 
 
 class App:
