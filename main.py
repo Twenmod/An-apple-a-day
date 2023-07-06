@@ -119,7 +119,7 @@ class Mainlevel:
     deltaTime = 0
 
     difficultyscalingspeed = 0.002
-    difficultyscaling = 1
+    difficultyscaling = 0.75
 
     startdowntime = 15
 
