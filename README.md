@@ -1,4 +1,4 @@
-# Gamepo
+# An apple a day | Po Games Informatica
 
 Pygame game made for school
 
