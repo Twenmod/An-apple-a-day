@@ -6,9 +6,9 @@ Wherein you can plant tree's for ammo and doctors come to get you
 
 ## Dependencies
 To install the dependencies please run:
-`~$ ``pip install pygame`
+`~$ ` `pip install pygame`
 Or on arch based systems:
-`~$ ``pacman -S python-pygame`
+`~$ ` `pacman -S python-pygame`
 
 ## Running
 To run the game just run the main.py file with python3
